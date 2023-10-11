@@ -1,31 +1,39 @@
+const addBook = function (books) {
+  books.forEach((book) => {
+    const newColonna = document.createElement("div");
+    newColonna.classList.add("col", "col-3", "sm-col-2");
+
+    const nuovaCard = document.createElement("div");
+    nuovaCard.classList.add("card");
+    nuovaCard.style.height = "700px";
+    nuovaCard.innerHTML = `
+        <img src="${book.img}" class="card-img-top" alt="${book.title}">
+        <div class="card-body d-flex flex-column justify-content-between">
+            <h5 class="card-title">${book.title}</h5>
+            <p class="card-text">${book.price}</p>
+            <button class="btn btn-primary">Scarta</button>
+            <button class="btn btn-success">Add to cart</button>
+        </div>
+    `;
+
+    newColonna.appendChild(nuovaCard);
+    const row = document.getElementById("books-wall");
+    row.appendChild(newColonna);
+  });
+};
+
 fetch("https://striveschool-api.herokuapp.com/books")
   .then((res) => {
     if (res.ok) {
       return res.json();
     } else {
-      if (res.status === 404) {
-        throw new Error("404 - Not Found");
-      } else if (res.status === 500) {
-        throw new Error("500 - Internal Server Error");
-      } else {
-        throw new Error("Errore generico");
-      }
+      throw new Error("Problema contattando il server :(");
     }
   })
-  .then((bookStores) => {
-    console.log("bookStores", bookStores);
-    const imgUno = document.getElementById("carduno");
-    const newImguno = document.createElement("img");
-    newImguno.setAttribute("src", bookStores[1].img);
-    newImguno.classList.add("img-fluid", "w-100");
-    imgUno.appendChild(newImguno);
-
-    const imgDue = document.getElementById("carddue");
-    const newImgdue = document.createElement("img");
-    newImgdue.setAttribute("src", bookStores[1].img);
-    newImgdue.classList.add("img-fluid", "w-100");
-    imgDue.appendChild(newImguno);
+  .then((data) => {
+    console.log(data);
+    addBook(data);
   })
   .catch((err) => {
-    console.log("error", err);
+    console.log("ERRORE!", err);
   });
