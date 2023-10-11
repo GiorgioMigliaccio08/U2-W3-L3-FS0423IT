@@ -17,7 +17,7 @@ fetch("https://striveschool-api.herokuapp.com/books")
     const imgUno = document.getElementById("carduno");
     const newImguno = document.createElement("img");
     newImguno.setAttribute("src", bookStores[0].img);
-    card - body.appendChild(newImguno);
+    imgUno.appendChild(newImguno);
   })
   .catch((err) => {
     console.log("error", err);
